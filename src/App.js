@@ -12,6 +12,7 @@ import Default from "./components/Default";
 import Details from "./components/Details";
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
+import Modal from "./components/Modal";
 
 
 
@@ -25,12 +26,11 @@ function App() {
        
         <Route path="Cart" element={<Cart/>} />
         <Route path="Details" element={<Details />} />
-        <Route path="ProductList" element={<ProductList />} />
         <Route path="Default" element={<Default />} />
-        <Route exact path="/" element={<  Home />}>
+        <Route exact path="/" element={<  ProductList />}/>
         
-      </Route>
     </Routes>
+    <Modal/>
    </div>
 
 

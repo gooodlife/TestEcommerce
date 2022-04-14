@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
-import {Link} from "react-router-dom";
-import { ProductConsumer } from './context';
+import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { ProductConsumer } from "./context";
 import PropTypes from "prop-types";
-
 export default class Product extends Component {
   render() {
-      const {id, title,img ,price,inCart} =this.props.product;
+    const { id, title, img, price, inCart } = this.props.product;
     return (
-      <ProductWrapper className=' col-md-4 mx-auto col-md-4 col-lg-3 my-3'>
+      <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
         <div className="card">
-         <div className="img-container p-5" onClick={console.log("you clicked")}>
-              <Link to="/details">
-                  <img src={img} alt="product"className='card-img-top'/>
-              </Link>
-              
-              <button
+          <ProductConsumer>
+            {(value) => (
+              <div
+                className="img-container p-5"
+                onClick={() => value.handleDetail(id)}
+              >
+                <Link to="/details">
+                  <img src={img} alt="product" className="card-img-top" />
+                </Link>
+
+                <button
                   className="cart-btn"
                   disabled={inCart ? true : false}
                   onClick={() => {
-                  
+                    value.addToCart(id);
+                    value.openModal(id);
                   }}
                 >
                   {inCart ? (
@@ -31,21 +36,21 @@ export default class Product extends Component {
                     <i className="fas fa-cart-plus" />
                   )}
                 </button>
-
-            </div>
-            {/* foooter */}
-            <div className="card-footer d-flex               justify-content-between">
-              <p className="align-self-center mb-0"> {title} </p>
-               <h5 className="text-blue font-italic mb-0">
-                 <span className="mr-1">$</span>
-                {price}
-               </h5>
+              </div>
+            )}
+          </ProductConsumer>
         </div>
-          </div>
-           
-       
+
+        {/* card footer */}
+        <div className="card-footer d-flex justify-content-between">
+          <p className="align-self-center mb-0"> {title} </p>
+          <h5 className="text-blue font-italic mb-0">
+            <span className="mr-1">$</span>
+            {price}
+          </h5>
+        </div>
       </ProductWrapper>
-    )
+    );
   }
 }
 Product.propTypes = {
@@ -109,5 +114,4 @@ const ProductWrapper = styled.div`
      color:var(--mainBlue);
      cursor:pointer;
    } 
-   `;
-{/* <div className='ProductTitle'><h1>Our <i>Products</i></h1></div> */}
+    `;
